@@ -88,24 +88,28 @@ int main(){
 
         input_data3.close();
     }
-
+/*
     vectorMedian(&read_data1);
     vectorMedian(&read_data2);
     vectorMedian(&read_data3);
     std::cout << "\nEND OF VECTOR\n";
-
+    */
+/*
     listMedian(&read_data1);
     listMedian(&read_data2);
     listMedian(&read_data3);
     std::cout << "\nEND OF LIST\n";
-
+*/
+/*
     heapMedian(&read_data1);
     heapMedian(&read_data2);
     heapMedian(&read_data3);
     std::cout << "\nEND OF HEAP\n";
+*/
 
     treeMedian(&read_data1);
     treeMedian(&read_data2);
     treeMedian(&read_data3);
     std::cout << "\nEND OF TREE\n";
+    
 }

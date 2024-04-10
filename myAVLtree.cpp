@@ -1,6 +1,7 @@
 //David Xiao
 //Project 2 myAVLTree class method implementation
 // myAVLTree.cpp
+#include <chrono>
 #include "myAVLTree.hpp"
 
 myAVLTree::myAVLTree() {
@@ -10,11 +11,11 @@ myAVLTree::myAVLTree() {
 }
 
 int myAVLTree::popMedian() {
-    if (min_tree_ == nullptr)
+    if (!max_tree_)
         throw std::runtime_error("Tree is empty");
 
-    int median = min_tree_->key;
-    min_tree_ = removeNode(min_tree_, min_tree_->key);
+    int median = max_tree_->key;
+    max_tree_ = removeNode(max_tree_, median);
     rebalance();
     return median;
 }
@@ -85,17 +86,33 @@ void myAVLTree::rebalance() {
     }
 }
 
-void treeMedian(const std::vector<int>* instructions) {
+// Function to calculate medians from a sequence of instructions
+void treeMedian(const std::vector<int>* instructions){
+    std::cout<<"hi1"<<std::endl;
+    // Instantiate a myAVLTree object to use for calculating medians
     myAVLTree avlTree;
+    
+    // Start the timer to measure performance
+    auto start = std::chrono::high_resolution_clock::now();
 
+    // Process each instruction in the input vector
     for (const int value : *instructions) {
         if (value == -1) {
+            // If instruction is -1, pop the median and store it for later printing
             avlTree.getMediansToPrint().push_back(avlTree.popMedian());
         } else {
+            // Insert the value into the AVL tree
             avlTree.insert(value);
         }
     }
 
+    // Stop the timer
+    auto end = std::chrono::high_resolution_clock::now();
+    // Calculate the duration in milliseconds
+    std::chrono::duration<double> duration = end - start;
+    std::cout << "\nTree Completed in: " << duration.count() * 1000 << " milliseconds\n";
+
+    // Print the medians after processing all instructions
     for (const int median : avlTree.getMediansToPrint()) {
         std::cout << median << " ";
     }

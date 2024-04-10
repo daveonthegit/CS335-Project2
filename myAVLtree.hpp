@@ -6,7 +6,6 @@
 
 //libraries
 #include <vector>
-#include<list>
 #include <iostream>
 #include "AVLTreeUtils.hpp"
 //listMedian signature
