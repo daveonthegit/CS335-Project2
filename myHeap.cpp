@@ -39,9 +39,10 @@ void heapMedian(const std::vector<int>* instructions){
     }
 }
 
-// Constructor initializes the max_heap and min_heap data structures
+// Constructor initializes the max_heap_ and min_heap_ data structures
 myHeap::myHeap(){
-    // No explicit action needed here since priority_queues are already initialized upon object creation
+    std::priority_queue<int> max_heap_;
+    std::priority_queue<int, std::vector<int>, std::greater<int>> min_heap_;
 }
 
 // Getter method for the mediansToPrint vector
@@ -51,14 +52,14 @@ std::vector<int>& myHeap::getMediansToPrint(){
 
 // Removes and returns the current median from the heaps
 int myHeap::popMedian() {
-    // The top of max_heap is considered the current median
-    int median = max_heap.top();
-    max_heap.pop();
+    // The top of max_heap_ is considered the current median
+    int median = max_heap_.top();
+    max_heap_.pop();
 
     // Rebalance the heaps to maintain the size property
-    if (max_heap.size() < min_heap.size()) {
-        max_heap.push(min_heap.top());
-        min_heap.pop();
+    if (max_heap_.size() < min_heap_.size()) {
+        max_heap_.push(min_heap_.top());
+        min_heap_.pop();
     }
 
     return median;
@@ -66,21 +67,21 @@ int myHeap::popMedian() {
 
 // Inserts a new value into the correct heap to maintain the median property
 void myHeap::insert(const int& value) {
-    // Insert into max_heap if value is less than or equal to the current median, else into min_heap
-    if (max_heap.empty() || value <= max_heap.top()) {
-        max_heap.push(value);
+    // Insert into max_heap_ if value is less than or equal to the current median, else into min_heap_
+    if (max_heap_.empty() || value <= max_heap_.top()) {
+        max_heap_.push(value);
     } else {
-        min_heap.push(value);
+        min_heap_.push(value);
     }
 
     // Rebalance the heaps to ensure their sizes differ by no more than one
-    if (max_heap.size() > min_heap.size() + 1) {
-        // Move the top element of max_heap to min_heap to balance the sizes
-        min_heap.push(max_heap.top());
-        max_heap.pop();
-    } else if (min_heap.size() > max_heap.size()) {
-        // Move the top element of min_heap to max_heap to balance the sizes
-        max_heap.push(min_heap.top());
-        min_heap.pop();
+    if (max_heap_.size() > min_heap_.size() + 1) {
+        // Move the top element of max_heap_ to min_heap_ to balance the sizes
+        min_heap_.push(max_heap_.top());
+        max_heap_.pop();
+    } else if (min_heap_.size() > max_heap_.size()) {
+        // Move the top element of min_heap_ to max_heap_ to balance the sizes
+        max_heap_.push(min_heap_.top());
+        min_heap_.pop();
     }
 }

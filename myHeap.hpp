@@ -25,9 +25,9 @@ class myHeap {
 
     private:
         std::vector<int> medians_to_print_;
-        std::priority_queue<int> max_heap;
+        std::priority_queue<int> max_heap_;
         //specifing greater than comparison to make minHeap
-        std::priority_queue<int, std::vector<int>, std::greater<int>> min_heap;
+        std::priority_queue<int, std::vector<int>, std::greater<int>> min_heap_;
 };
 
 
