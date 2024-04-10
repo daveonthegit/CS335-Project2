@@ -18,6 +18,7 @@ Node* rightRotate(Node* y);
 Node* leftRotate(Node* x);
 int getBalance(Node* N);
 Node* insert(Node* node, int key);
+Node* minValueNode(Node* node);
 Node* removeNode(Node* root, int key);
 void preOrder(Node* root);
 

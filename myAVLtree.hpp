@@ -29,7 +29,8 @@ class myAVLTree{
         Node* max_tree_;
         //specifying greater than comparison to make min_tree_
         Node* min_tree_;
-        
+        // Utility functions for AVL tree operations
+        void insert(Node*& root, const int& key);
         void rebalance();
 };
 

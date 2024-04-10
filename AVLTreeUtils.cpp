@@ -95,6 +95,18 @@ Node* insert(Node* node, int key) {
 
     return node;
 }
+// Utility function to find the node with the minimum value in a subtree
+Node* minValueNode(Node* node) {
+    Node* current = node;
+
+    // Loop down to find the leftmost leaf
+    while (current->left != nullptr)
+        current = current->left;
+
+    return current;
+}
+
+// Recursive function to remove a node with the given key from the AVL tree rooted at the given node
 Node* removeNode(Node* root, int key) {
     // Base case: If the tree is empty
     if (root == nullptr)
@@ -108,17 +120,17 @@ Node* removeNode(Node* root, int key) {
     else if (key > root->key)
         root->right = removeNode(root->right, key);
 
-    // If key is same as root's key, then this is the node to be deleted
+    // If the key is the same as root's key, then this is the node to be deleted
     else {
         // Node with only one child or no child
-        if ((root->left == nullptr) || (root->right == nullptr)) {
+        if (root->left == nullptr || root->right == nullptr) {
             Node* temp = root->left ? root->left : root->right;
 
             // No child case
             if (temp == nullptr) {
                 temp = root;
                 root = nullptr;
-            } else  // One child case
+            } else // One child case
                 *root = *temp; // Copy the contents of the non-empty child
 
             delete temp;
@@ -134,17 +146,15 @@ Node* removeNode(Node* root, int key) {
         }
     }
 
-    // If the tree had only one node, then return
+    // If the tree had only one node then return
     if (root == nullptr)
         return root;
 
     // Update the height of the current node
-    root->height = 1 + std::max(height(root->left), height(root->right));
+    root->height = 1 + max(height(root->left), height(root->right));
 
-    // Get the balance factor of this node (to check whether this node became unbalanced)
+    // Get the balance factor of this node to check whether it became unbalanced
     int balance = getBalance(root);
-
-    // If this node becomes unbalanced, then there are four cases:
 
     // Left Left Case
     if (balance > 1 && getBalance(root->left) >= 0)

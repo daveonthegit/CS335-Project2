@@ -18,49 +18,71 @@ int myAVLTree::popMedian() {
     rebalance();
     return median;
 }
-
 void myAVLTree::insert(const int& median) {
-    if (min_tree_ == nullptr) {
-        min_tree_ = newNode(median);
-        rebalance();
+    // Insert into the AVL trees
+    insert(max_tree_, median);
+    insert(min_tree_, median);
+
+    // Rebalance the trees if necessary
+    rebalance();
+}
+// Insert a key into the AVL tree
+void myAVLTree::insert(Node*& root, const int& key) {
+    if (root == nullptr) {
+        root = newNode(key);
         return;
     }
 
-    if (median <= min_tree_->key) {
-        min_tree_ = insert(min_tree_, median);
-    } else {
-        if (max_tree_ == nullptr)
-            max_tree_ = newNode(median);
-        else
-            max_tree_ = insert(max_tree_, median);
+    if (key < root->key)
+        insert(root->left, key);
+    else if (key > root->key)
+        insert(root->right, key);
+
+    root->height = 1 + std::max(height(root->left), height(root->right));
+    int balance = getBalance(root);
+
+    // Left Left Case
+    if (balance > 1 && key < root->left->key)
+        root = rightRotate(root);
+
+    // Right Right Case
+    if (balance < -1 && key > root->right->key)
+        root = leftRotate(root);
+
+    // Left Right Case
+    if (balance > 1 && key > root->left->key) {
+        root->left = leftRotate(root->left);
+        root = rightRotate(root);
     }
 
-    rebalance();
+    // Right Left Case
+    if (balance < -1 && key < root->right->key) {
+        root->right = rightRotate(root->right);
+        root = leftRotate(root);
+    }
 }
 
 std::vector<int>& myAVLTree::getMediansToPrint() {
     return medians_to_print_;
 }
 
+// Rebalance the trees if necessary
 void myAVLTree::rebalance() {
-    int balance = height(min_tree_) - height(max_tree_);
-
-    if (balance > 1) {
-        max_tree_ = insert(max_tree_, min_tree_->key);
-        min_tree_ = removeNode(min_tree_, min_tree_->key);
-    } else if (balance < -1) {
-        min_tree_ = insert(min_tree_, max_tree_->key);
-        max_tree_ = removeNode(max_tree_, max_tree_->key);
+    // If the difference in heights of max_tree_ and min_tree_ is more than 1,
+    // move the necessary elements between the trees to balance them
+    while (std::abs(height(max_tree_) - height(min_tree_)) > 1) {
+        if (height(max_tree_) > height(min_tree_)) {
+            // Move the maximum value from max_tree_ to min_tree_
+            int temp = max_tree_->key;
+            max_tree_ = removeNode(max_tree_, temp);
+            insert(min_tree_, temp);
+        } else {
+            // Move the minimum value from min_tree_ to max_tree_
+            int temp = min_tree_->key;
+            min_tree_ = removeNode(min_tree_, temp);
+            insert(max_tree_, temp);
+        }
     }
-
-    // Update medians_to_print_ based on the current state of the trees
-    medians_to_print_.clear();
-    if (min_tree_ != nullptr)
-        medians_to_print_.push_back(min_tree_->key);
-    if (max_tree_ != nullptr)
-        medians_to_print_.push_back(max_tree_->key);
-    if (min_tree_ != nullptr && max_tree_ != nullptr && min_tree_->key > max_tree_->key)
-        std::swap(medians_to_print_[0], medians_to_print_[1]);
 }
 
 void treeMedian(const std::vector<int>* instructions) {
