@@ -17,16 +17,18 @@ int myAVLTree::popMedian() {
     int median = max_tree_->key;
     max_tree_ = removeNode(max_tree_, median);
     rebalance();
+    std::cout<<median<<std::endl;
     return median;
 }
-void myAVLTree::insert(const int& median) {
-    // Insert into the AVL trees
-    insert(max_tree_, median);
-    insert(min_tree_, median);
-
-    // Rebalance the trees if necessary
+void myAVLTree::insert(const int& value) {
+    if (!max_tree_ || value <= max_tree_->key) {
+        insert(max_tree_, value);
+    } else {
+        insert(min_tree_, value);
+    }
     rebalance();
 }
+
 // Insert a key into the AVL tree
 void myAVLTree::insert(Node*& root, const int& key) {
     if (root == nullptr) {
@@ -86,9 +88,10 @@ void myAVLTree::rebalance() {
     }
 }
 
+
 // Function to calculate medians from a sequence of instructions
 void treeMedian(const std::vector<int>* instructions){
-    std::cout<<"hi1"<<std::endl;
+    std::cout<<"hi"<<std::endl;
     // Instantiate a myAVLTree object to use for calculating medians
     myAVLTree avlTree;
     

@@ -1,5 +1,5 @@
 //David Xiao
-//Project 2, myHeap class
+//Project 2 myHeap class header
 
 #ifndef MYHEAP_HPP
 #define MYHEAP_HPP
@@ -24,10 +24,10 @@ class myHeap {
         std::vector<int>& getMediansToPrint();
 
     private:
-        std::vector<int> mediansToPrint_;
-        std::priority_queue<int> maxHeap;
+        std::vector<int> medians_to_print_;
+        std::priority_queue<int> max_heap_;
         //specifing greater than comparison to make minHeap
-        std::priority_queue<int, std::vector<int>, std::greater<int>> minHeap;
+        std::priority_queue<int, std::vector<int>, std::greater<int>> min_heap_;
 };
 
 
