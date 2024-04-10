@@ -113,7 +113,7 @@ void treeMedian(const std::vector<int>* instructions){
     auto end = std::chrono::high_resolution_clock::now();
     // Calculate the duration in milliseconds
     std::chrono::duration<double> duration = end - start;
-    std::cout << "\nTree Completed in: " << duration.count() * 1000 << " milliseconds\n";
+    //std::cout << "\nTree Completed in: " << duration.count() * 1000 << " milliseconds\n";
 
     // Print the medians after processing all instructions
     for (const int median : avlTree.getMediansToPrint()) {
