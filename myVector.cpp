@@ -30,7 +30,7 @@ void vectorMedian(const std::vector<int>* instructions){
     // Stop timing and calculate the total duration
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
-    std::cout << "\nVector Completed in: " << duration.count() * 1000 << " milliseconds\n";
+    //std::cout << "\nVector Completed in: " << duration.count() * 1000 << " milliseconds\n";
 
     // Output the calculated medians after processing all instructions
     for (const int median : temp_vector.getMediansToPrint()){

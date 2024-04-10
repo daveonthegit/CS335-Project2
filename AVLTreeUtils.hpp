@@ -9,10 +9,12 @@ public:
     Node* left;
     Node* right;
     int height;
+    int size;
 };
 
 int max(int a, int b);
 int height(Node* N);
+int size(Node* N);
 Node* newNode(int key);
 Node* rightRotate(Node* y);
 Node* leftRotate(Node* x);

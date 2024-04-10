@@ -32,7 +32,7 @@ void listMedian(const std::vector<int>* instructions){
     auto end = std::chrono::high_resolution_clock::now();
     // Calculate execution duration in milliseconds
     std::chrono::duration<double> duration = end - start;
-    std::cout << "\nList Completed in: " << duration.count() * 1000 << " milliseconds\n";
+    //std::cout << "\nList Completed in: " << duration.count() * 1000 << " milliseconds\n";
 
     // Print the calculated medians after processing all instructions
     for (const int median : temp_list.getMediansToPrint()){

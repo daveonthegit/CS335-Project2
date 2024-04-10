@@ -10,6 +10,7 @@ public:
     Node* left;
     Node* right;
     int height;
+    int size;
 };
 
 int max(int a, int b) {
@@ -21,13 +22,18 @@ int height(Node* N) {
         return 0;
     return N->height;
 }
-
+int size(Node* N) {
+    if (N == nullptr)
+        return 0;
+    return N->size;
+}
 Node* newNode(int key) {
     Node* node = new Node();
     node->key = key;
     node->left = nullptr;
     node->right = nullptr;
     node->height = 1;
+    node->size = 1;
     return node;
 }
 
@@ -75,6 +81,8 @@ Node* insert(Node* node, int key) {
         return node;
 
     node->height = 1 + max(height(node->left), height(node->right));
+    node->size = 1 + size(node->left) + size(node->right);
+
     int balance = getBalance(node);
 
     if (balance > 1 && key < node->left->key)
