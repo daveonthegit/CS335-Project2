@@ -1,17 +1,6 @@
 // AVLTreeUtils.hpp
-#ifndef AVLTREEUTILS_HPP
-#define AVLTREEUTILS_HPP
-
+#include "AVLTreeUtils.hpp"
 #include <iostream>
-
-class Node {
-public:
-    int key;
-    Node* left;
-    Node* right;
-    int height;
-    int size;
-};
 
 int max(int a, int b) {
     return (a > b) ? a : b;
@@ -37,29 +26,43 @@ Node* newNode(int key) {
     return node;
 }
 
+// Update size in rotation methods
 Node* rightRotate(Node* y) {
     Node* x = y->left;
     Node* T2 = x->right;
 
+    // Perform rotation
     x->right = y;
     y->left = T2;
 
-    y->height = 1 + max(height(y->left), height(y->right));
-    x->height = 1 + max(height(x->left), height(x->right));
+    // Update heights
+    y->height = max(height(y->left), height(y->right)) + 1;
+    x->height = max(height(x->left), height(x->right)) + 1;
 
+    // Update sizes
+    y->size = size(y->left) + size(y->right) + 1;
+    x->size = size(x->left) + size(x->right) + 1;
+
+    // Return new root
     return x;
 }
-
 Node* leftRotate(Node* x) {
     Node* y = x->right;
     Node* T2 = y->left;
 
+    // Perform rotation
     y->left = x;
     x->right = T2;
 
-    x->height = 1 + max(height(x->left), height(x->right));
-    y->height = 1 + max(height(y->left), height(y->right));
+    // Update heights
+    x->height = max(height(x->left), height(x->right)) + 1;
+    y->height = max(height(y->left), height(y->right)) + 1;
 
+    // Update sizes
+    x->size = size(x->left) + size(x->right) + 1;
+    y->size = size(y->left) + size(y->right) + 1;
+
+    // Return new root
     return y;
 }
 
@@ -69,14 +72,14 @@ int getBalance(Node* N) {
     return height(N->left) - height(N->right);
 }
 
-Node* insert(Node* node, int key) {
+Node* insertNode(Node* node, int key) {
     if (node == nullptr)
         return newNode(key);
 
     if (key < node->key)
-        node->left = insert(node->left, key);
+        node->left = insertNode(node->left, key);
     else if (key > node->key)
-        node->right = insert(node->right, key);
+        node->right = insertNode(node->right, key);
     else
         return node;
 
@@ -160,7 +163,7 @@ Node* removeNode(Node* root, int key) {
 
     // Update the height of the current node
     root->height = 1 + max(height(root->left), height(root->right));
-
+    root->size = 1 + size(root->left) + size(root->right);
     // Get the balance factor of this node to check whether it became unbalanced
     int balance = getBalance(root);
 
@@ -194,4 +197,3 @@ void preOrder(Node* root) {
     }
 }
 
-#endif

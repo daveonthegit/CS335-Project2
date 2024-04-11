@@ -15,22 +15,26 @@ class myAVLTree{
     public:
         //constructor
         myAVLTree();
-
+        int min_size_;
+        int max_size_;
+        AvlTree max_tree_;
+        AvlTree min_tree_;
         //methods
-        int popMedian();
+        /* deprecated
+        void popMedian();
 
         void insert(const int& median);
-
+        */
         std::vector<int>& getMediansToPrint();
 
     private:
         std::vector<int> medians_to_print_;
-        Node* max_tree_;
-        //specifying greater than comparison to make min_tree_
-        Node* min_tree_;
+
+        /* deprecated
         // Utility functions for AVL tree operations
         void insert(Node*& root, const int& key);
         void rebalance();
+        */
 };
 
   
