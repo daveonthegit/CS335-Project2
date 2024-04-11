@@ -13,10 +13,6 @@ myAVLTree::myAVLTree() {
     max_size_=0; // Initialize counter for max_tree_
 }
 
-// Function to get the medians to print
-std::vector<int>& myAVLTree::getMediansToPrint() {
-    return medians_to_print_; // Return the vector of medians
-}
 
 // Function to calculate medians from a sequence of instructions
 void treeMedian(const std::vector<int>* instructions){
@@ -33,7 +29,7 @@ void treeMedian(const std::vector<int>* instructions){
         if (!avlTree.min_tree_.isEmpty()){
                 // If operation is -1, pop the median and push it back to the medians vector
             if (operation == -1){
-                avlTree.getMediansToPrint().push_back(avlTree.min_tree_.findMax());
+                avlTree.medians_to_print_.push_back(avlTree.min_tree_.findMax());
                 avlTree.min_tree_.remove(avlTree.min_tree_.findMax());// Remove the rightmost node for the min_tree_ and decrement its size
                 avlTree.min_size_--;
             }
@@ -89,55 +85,7 @@ void treeMedian(const std::vector<int>* instructions){
     //std::cout << "\nTree Completed in: " << duration.count() * 1000 << " milliseconds\n";
 
     // Print the medians after processing all instructions
-    for (const int median : avlTree.getMediansToPrint()) {
+    for (const int median : avlTree.medians_to_print_) {
         std::cout << median << " ";
     }
-}
-
-/* Deprecated
-int myAVLTree::popMedian() {
-    if (!max_tree_)
-        throw std::runtime_error("Tree is empty");
-
-    int median = max_tree_->key;
-    max_tree_ = removeNode(max_tree_, median);
-    rebalance();
-    std::cout<<median<<std::endl;
-    return median;
-}
-
-void myAVLTree::insert(const int& value) {
-    if (!max_tree_ || value <= max_tree_->key) {
-        insert(max_tree_, value);
-    } else {
-        insert(min_tree_, value);
-    }
-    rebalance();
-}
-
-// Insert a key into the AVL tree
-void myAVLTree::insert(Node*& root, const int& key) {
-    insertNode(root,key);
-}
-
-
-// Rebalance the trees if necessary
-void myAVLTree::rebalance() {
-    // If the difference in heights of max_tree_ and min_tree_ is more than 1,
-    // move the necessary elements between the trees to balance them
-    while (std::abs(height(max_tree_) - height(min_tree_)) > 1) {
-        if (height(max_tree_) > height(min_tree_)) {
-            // Move the maximum value from max_tree_ to min_tree_
-            int temp = max_tree_->key;
-            max_tree_ = removeNode(max_tree_, temp);
-            insert(min_tree_, temp);
-        } else {
-            // Move the minimum value from min_tree_ to max_tree_
-            int temp = min_tree_->key;
-            min_tree_ = removeNode(min_tree_, temp);
-            insert(max_tree_, temp);
-        }
-    }
-}
-
-*/
+}   

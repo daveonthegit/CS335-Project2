@@ -144,6 +144,6 @@ int main(){
     treeMedian(&read_data3);
     std::cout << "\nEND OF TREE\n";
     */
-       treeMedian(&read_testinput);
+       //treeMedian(&read_testinput);
 
 }
