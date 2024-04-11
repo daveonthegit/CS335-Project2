@@ -2,59 +2,67 @@
 
 void treeMedian(const std::vector<int> * instructions)
 {
-    AvlTree min_tree; // a tree for min_tree elements greater than the median(minTree)
-    AvlTree max_tree; // a tree for max_tree elements less than the median(maxTree)
-    std::vector<int> median; //created a vector to store all the popped medians
-    int max_tree_size = 0; //counter for maxTree 
-    int min_tree_size = 0; // counter for minTree
+    AvlTree min_tree; // Initialize min_tree as a tree for elements greater than the median
+    AvlTree max_tree; // Initialize max_tree as a tree for elements less than the median
+    std::vector<int> median; // Vector to store all the popped medians
+    int max_tree_size = 0; // Counter for the number of elements in max_tree
+    int min_tree_size = 0; // Counter for the number of elements in min_tree
 
-    const auto t1_start = std::chrono::steady_clock::now();
+    const auto t1_start = std::chrono::steady_clock::now(); // Start the timer
+    
+    // Iterate through the vector of instructions
+    for (auto it = instructions->begin(); it != instructions->end(); ++it){
+        int operation = *it; // Dereference the iterator and store it into operation
 
-    for (auto it = instructions->begin(); it != instructions->end(); ++it){//iterate throughout the vector
-        int operation = *it;//dereference it and store it into operation
-        if (!max_tree.isEmpty()){//if its not empty(!= nullptr)
-            if (operation == -1){//push back the median if it is -1
+        // If max_tree is not empty
+        if (!max_tree.isEmpty()){
+            // If operation is -1, push the median into the median vector
+            if (operation == -1){
                 median.push_back(max_tree.findMax());
-                max_tree.remove(max_tree.findMax());//remove the right most node for the max_tree tree and decrement it
+                max_tree.remove(max_tree.findMax()); // Remove the maximum element from max_tree and decrement its size
                 max_tree_size--;
             }
-            else{//if any other value
-                if ((operation) > max_tree.findMax()) //if operation is > right most for max_tree tree then insert it into min_tree tree
-                {
+            else{ // If operation is any other value
+                // If operation is greater than the maximum element in max_tree, insert it into min_tree
+                if ((operation) > max_tree.findMax()) {
                     min_tree.insert(operation); 
-                    min_tree_size++;//increment it by 1 for min_tree
+                    min_tree_size++; // Increment the size of min_tree
                 }
-                else{
-                    max_tree.insert(operation); // if < right most for max_tree, then insert
-                    max_tree_size++;
+                else{ // If operation is less than or equal to the maximum element in max_tree, insert it into max_tree
+                    max_tree.insert(operation); 
+                    max_tree_size++; // Increment the size of max_tree
                 }
             }
         }
-        else{//if it is empty, this will be the first node inserted
+        else{ // If max_tree is empty, this will be the first node inserted
             max_tree.insert(operation); 
-            max_tree_size++;
+            max_tree_size++; // Increment the size of max_tree
         }
 
-        if (min_tree_size > max_tree_size){ // if minheap size > maxheap size
-                max_tree.insert(min_tree.findMin()); // insert the minheap leftmost node into max_tree and increment max_tree
-                max_tree_size++;
-                min_tree.remove(min_tree.findMin()); // remove the leftmost node for minheap from min_tree(minheap) and decrement
-                min_tree_size--;
-            }
+        // If the size of min_tree is greater than the size of max_tree
+        if (min_tree_size > max_tree_size){
+            max_tree.insert(min_tree.findMin()); // Insert the minimum element of min_tree into max_tree and increment its size
+            max_tree_size++;
+            min_tree.remove(min_tree.findMin()); // Remove the minimum element from min_tree and decrement its size
+            min_tree_size--;
+        }
         
-        if ((max_tree_size + min_tree_size) % 2 == 0){ //if even
-            if (max_tree_size > min_tree_size){ // if maxheap size > minheap size
-                min_tree.insert(max_tree.findMax()); //insert rightmost of the maxheap(max_tree) into min_tree
-                min_tree_size++;
-                max_tree.remove(max_tree.findMax()); // remove rightmost of max_tree from max_tree
+        // If the sum of the sizes of max_tree and min_tree is even
+        if ((max_tree_size + min_tree_size) % 2 == 0){
+            // If the size of max_tree is greater than the size of min_tree
+            if (max_tree_size > min_tree_size){
+                min_tree.insert(max_tree.findMax()); // Insert the maximum element of max_tree into min_tree
+                min_tree_size++; // Increment the size of min_tree
+                max_tree.remove(max_tree.findMax()); // Remove the maximum element from max_tree and decrement its size
                 max_tree_size--;
             }
         }
-        else{//if odd
-            if (max_tree_size > (min_tree_size + 1)){//if max_tree is greater than min_tree + 1 because it cannot be greater than min_tree by 1
-                min_tree.insert(max_tree.findMax()); //insert rightmost of the maxheap(max_tree) into min_tree
-                min_tree_size++;
-                max_tree.remove(max_tree.findMax()); // remove rightmost of max_tree from max_tree
+        else{ // If the sum of the sizes of max_tree and min_tree is odd
+            // If the size of max_tree is greater than the size of min_tree plus one
+            if (max_tree_size > (min_tree_size + 1)){
+                min_tree.insert(max_tree.findMax()); // Insert the maximum element of max_tree into min_tree
+                min_tree_size++; // Increment the size of min_tree
+                max_tree.remove(max_tree.findMax()); // Remove the maximum element from max_tree and decrement its size
                 max_tree_size--;
             }
         }
