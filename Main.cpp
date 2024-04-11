@@ -146,4 +146,6 @@ int main(){
     */
        //treeMedian(&read_testinput);
 
+
+    treeMedian(&read_testinput);
 }
