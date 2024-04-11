@@ -1,3 +1,7 @@
+//David Xiao
+//Project 2 myavltree
+
+
 #include "myAVLtree.hpp"
 
 void treeMedian(const std::vector<int> * instructions)

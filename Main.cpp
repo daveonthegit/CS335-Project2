@@ -147,5 +147,5 @@ int main(){
        //treeMedian(&read_testinput);
 
 
-    treeMedian(&read_data3);
+    vectorMedian(&read_data3);
 }
